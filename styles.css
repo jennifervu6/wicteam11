@@ -1,1 +1,31 @@
 #map { height: 850px; }
+.country-details-section {
+    padding: 40px 0;
+    background: #f8f9fa;
+    min-height: 850px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+.info-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.info-btn:hover {
+    background: #0056b3;
+}

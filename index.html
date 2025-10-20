@@ -10,6 +10,23 @@
 </head>
 <body>
     <div id="map"></div>
+    <section id="country-details" class="country-details-section">
+        <div class="container">
+            <h2>Country Details</h2>
+            <div id="country-info-content">
+            </div>
+        </div>
+    </section>
+    <template id="popup-template" class="popup-template">
+        <div class="country-popup">
+            <h3 data-field="name">Country Name</h3>
+            <div class="popup-content">
+                <p data-field="region">Region information</p>
+                <p data-field="population">Population data</p>
+                <button class="info-btn" data-action="more-info" onclick="showCountryDetails()">More Information</button>
+            </div>
+        </div>
+    </template>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>

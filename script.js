@@ -2,9 +2,9 @@
 var map = L.map('map', {
     center: [30, -81],
     zoom: 2.5,
-    maxZoom: 3,
+    maxZoom: 4,
     minZoom: 2.5,
-    zoomSnap: 0.5 
+    zoomSnap: 0.4 
 });
 var bounds = map.getBounds();
 
@@ -15,14 +15,15 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
-var selectedCountry = null;
+let selectedCountry = null;
+let currentCountryData = null;
 
 fetch('data.json')
     .then(response => response.json())
     .then(countriesData => {
 
         const defaultStyle = {
-            fillColor: '', // Explicitly no fill color
+            fillColor: '', 
             fillOpacity: 0,
             color: '#cdcdcdff',      
             weight: 0.3,
@@ -30,7 +31,7 @@ fetch('data.json')
         };
         
         const hoverStyle = {
-            fillColor: '', // Explicitly no fill color
+            fillColor: '', 
             fillOpacity: 0.5,
             color: '#cdcdcdff',      
             weight: 0.3,
@@ -62,22 +63,46 @@ fetch('data.json')
                 });
                 
                 layer.on('click', function(e) {
-                    if (selectedCountry) {
-                        selectedCountry.setStyle({
-                            fillColor: '',
-                            fillOpacity: 0,
-                            color: '#cdcdcdff',      
-                            weight: 0.3,
-                            opacity: 1
-                        });
-                    }
+                     if (selectedCountry) {
+                selectedCountry.setStyle(defaultStyle);
+                selectedCountry.closePopup();
+            }
                     
 
                     e.target.setStyle(selectedStyle);
                     selectedCountry = e.target;
-                    
-                    map.fitBounds(e.target.getBounds());
+                    currentCountryData = feature.properties;
+
+                    const popupContent = document.getElementById('popup-template').innerHTML
+                        .replace('Country Name', feature.properties.name)
+                        .replace('Region information', `Region: ${feature.properties.region || 'Not specified'}`)
+                        .replace('Population data', `Population: ${feature.properties.population ? feature.properties.population.toLocaleString() : 'Unknown'}`);
+
+                    this.bindPopup(popupContent, {
+                        maxWidth: 300,
+                        className: 'custom-popup',
+                        closeOnClick: false
+                    }).openPopup();
+                                    
+                    map.fitBounds(e.target.getBounds(), {
+                        easeLinearity: 0.7,
+                        padding: [90, 90]
+                    });
                 });
             }
         }).addTo(map);
     });
+    
+function showCountryDetails() {
+
+    if (selectedCountry) {
+        selectedCountry.closePopup();
+    }
+    
+
+    const detailsSection = document.getElementById('country-details');
+    detailsSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
