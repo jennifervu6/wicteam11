@@ -6,16 +6,28 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""/>
     <link rel="stylesheet" href="styles.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="header">
+        <a href="http://127.0.0.1:5500/quiz.html">
+            <button class="btn" id="quiz-btn" data-action="quiz" onclick="showQuizView()">Quiz View</button>
+        </a>
+        <button class="btn" id="playlist-btn" data-action="playlist" onclick="showPlaylistView()">Playlist View</button>
+    </div>
+    <section id="main">
+        <h1 class="main-heading">Educational Interactive Map</h1>
+        <button class="btn" id="map-scroll-btn" data-action="map-scroll" onclick="mapScroll()">Direct to Map</button>
+        <img src="" alt="EARTH IMG" class="earth-image" id="earth-image-main">
+    </section>
+    <section id="how-to-use">
+        <h1 class="main-heading">How to Use</h1>
+    </section>
     <div id="map"></div>
     <section id="country-details" class="country-details-section">
-        <div class="container">
             <h2>Country Details</h2>
-            <div id="country-info-content">
-            </div>
-        </div>
     </section>
     <template id="popup-template" class="popup-template">
         <div class="country-popup">
