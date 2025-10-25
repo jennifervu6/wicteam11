@@ -13,6 +13,8 @@
 
 html {
     scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -28,4 +30,65 @@ html {
 
 .info-btn:hover {
     background: #0056b3;
+}
+
+#header { height: 87px;
+    background-color: #A0F1BD;
+    margin: 0px;
+}
+.btn {
+    background: #2E4F21;
+    color: white;
+    border: none;
+    padding: 12px 12px;
+    border-radius: 51.57px;
+    cursor: pointer;
+    position: relative;
+
+}
+.btn:hover {
+    background: #1b2d12;
+}
+#quiz-btn {
+    left: 1350px;
+    top: 15px;
+}
+#playlist-btn {
+    left: 1170px;
+    top: 15px;
+}
+#main {
+    text-align: left;
+    height: 600px;
+    background-color: #A0F1BD;
+    margin-top: -67px;
+}
+.earth-image {
+    width: 429px;
+    height: 411px;
+    position: relative;
+}
+#earth-image-main {
+    left: 900px;
+    top: -50px;
+}
+.main-heading {
+    font-size: 80px;
+    font-weight: 400;
+    font-family: 'Work Sans', sans-serif;
+    text-align: left;
+    color: #333;
+    width: 700px;
+    height: 120px;
+    position: relative;
+    top: 150px;
+    left: 40px;
+}
+#map-scroll-btn {
+    left: 40px;
+    top: -200px;
+}
+#how-to-use {
+    text-align: left;
+    height: 600px;
 }

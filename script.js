@@ -106,3 +106,10 @@ function showCountryDetails() {
         block: 'start'
     });
 }
+function mapScroll() {
+    const mapSection = document.getElementById('map');
+    mapSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
