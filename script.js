@@ -6,55 +6,153 @@ var map = L.map('map', {
     minZoom: 2.5,
     zoomSnap: 0.4 
 });
+
 var bounds = map.getBounds();
-
 map.setMaxBounds(bounds);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-
 let selectedCountry = null;
 let currentCountryData = null;
+let countriesInfoData = null;
 
-fetch('data.json')
-    .then(response => response.json())
-    .then(countriesData => {
 
+function updateCountryDetails(properties, countryInfo) {
+    const detailsContainer = document.getElementById('details-container');
+    const detailsTemplate = document.getElementById('details-template');
+    const noSelection = detailsContainer.querySelector('.no-selection');
+    
+    if (!detailsContainer || !detailsTemplate) {
+        console.error('Details container or template not found');
+        return;
+    }
+    
+
+    if (noSelection) {
+        noSelection.style.display = 'none';
+    }
+    detailsTemplate.style.display = 'block';
+    
+ 
+    const animalDisplay = Array.isArray(countryInfo.animal) 
+        ? countryInfo.animal.join(', ') 
+        : countryInfo.animal || 'Unknown';
+    
+    const languageDisplay = countryInfo['official language'] || 'Unknown';
+    
+    document.getElementById('detail-capital').textContent = countryInfo.capital || 'Unknown';
+    document.getElementById('detail-animal').textContent = animalDisplay;
+    document.getElementById('detail-dish').textContent = countryInfo.dish || 'Unknown';
+    document.getElementById('detail-tree').textContent = countryInfo.tree || 'Unknown';
+    document.getElementById('detail-language').textContent = languageDisplay;
+    document.getElementById('detail-day').textContent = countryInfo['national day'] || 'Unknown';
+    document.getElementById('detail-day-info').textContent = countryInfo['national day info'] || '';
+    document.getElementById('detail-anthem').textContent = countryInfo.anthem || 'Unknown';
+}
+
+
+function findCountryInfo(countryName) {
+    if (!countriesInfoData) return null;
+    
+    return countriesInfoData.find(country => 
+        country['Unnamed: 0'] === countryName
+    );
+}
+
+
+function showCountryDetails() {
+    if (selectedCountry) {
+        selectedCountry.closePopup();
+    }
+    
+    const detailsSection = document.getElementById('country-details');
+    detailsSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+
+function mapScroll() {
+    const mapSection = document.getElementById('map');
+    mapSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+
+
+function showPlaylistView() {
+    alert('Playlist feature coming soon!');
+}
+
+
+fetch('data/countries_info.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(countriesArray => {
+        console.log('Data loaded successfully:', countriesArray);
+        
+        
+        countriesInfoData = countriesArray;
+
+        
+        const geoJSONData = {
+            type: "FeatureCollection",
+            features: countriesArray.map(country => ({
+                type: "Feature",
+                properties: {
+                    name: country['Unnamed: 0'],
+                    ...country
+                },
+                geometry: country.geometry
+            }))
+        };
+
+        
         const defaultStyle = {
-            fillColor: '', 
-            fillOpacity: 0,
-            color: '#cdcdcdff',      
+            fillColor: '#A0F1BD', 
+            fillOpacity: 0.2,
+            color: '#2E4F21',      
             weight: 0.3,
-            opacity: 1
+            opacity: 0.6
         };
         
         const hoverStyle = {
-            fillColor: '', 
-            fillOpacity: 0.5,
-            color: '#cdcdcdff',      
-            weight: 0.3,
+            fillColor: '#A0F1BD', 
+            fillOpacity: 0.4,
+            color: '#2E4F21',      
+            weight: 0.5,
             opacity: 1
         };
         
         const selectedStyle = {
-            fillColor: 'red',
-            fillOpacity: 0.2,  
-            color: '#c20000ff',
-            opacity: 1,
-            weight: 0.3
+            fillColor: '#387d31ff',
+            fillOpacity: 0.3,  
+            color: '#3e652aff',
+            opacity: 0.5,
+            weight: 2.5
         };
 
-        L.geoJSON(countriesData, {
+        
+        L.geoJSON(geoJSONData, {
             style: defaultStyle,
             onEachFeature: function(feature, layer) {
-
+                
+                
                 layer.on('mouseover', function(e) {
                     if (e.target !== selectedCountry) {
                         e.target.setStyle(hoverStyle);
                     }
                 });
+                
                 
                 layer.on('mouseout', function(e) {
                     if (e.target !== selectedCountry) {
@@ -62,28 +160,46 @@ fetch('data.json')
                     }
                 });
                 
+                
                 layer.on('click', function(e) {
-                     if (selectedCountry) {
-                selectedCountry.setStyle(defaultStyle);
-                selectedCountry.closePopup();
-            }
                     
-
+                    if (selectedCountry && selectedCountry !== e.target) {
+                        selectedCountry.setStyle(defaultStyle);
+                        selectedCountry.closePopup();
+                    }
+                    
+                    
                     e.target.setStyle(selectedStyle);
                     selectedCountry = e.target;
                     currentCountryData = feature.properties;
 
-                    const popupContent = document.getElementById('popup-template').innerHTML
-                        .replace('Country Name', feature.properties.name)
-                        .replace('Region information', `Region: ${feature.properties.region || 'Not specified'}`)
-                        .replace('Population data', `Population: ${feature.properties.population ? feature.properties.population.toLocaleString() : 'Unknown'}`);
+                   
+                    const countryInfo = findCountryInfo(feature.properties.name);
 
-                    this.bindPopup(popupContent, {
+                    
+                    const popupContent = `
+                        <div class="country-popup">
+                            <h3>${feature.properties.name}</h3>
+                            <div class="popup-content">
+                                <p><strong>Capital:</strong> ${countryInfo?.capital || 'Unknown'}</p>
+                                <button class="info-btn" onclick="showCountryDetails()">More Information</button>
+                            </div>
+                        </div>
+                    `;
+
+                    
+                    layer.bindPopup(popupContent, {
                         maxWidth: 300,
                         className: 'custom-popup',
                         closeOnClick: false
                     }).openPopup();
-                                    
+                    
+                    
+                    if (countryInfo) {
+                        updateCountryDetails(feature.properties, countryInfo);
+                    }
+
+                    
                     map.fitBounds(e.target.getBounds(), {
                         easeLinearity: 0.7,
                         padding: [90, 90]
@@ -91,18 +207,8 @@ fetch('data.json')
                 });
             }
         }).addTo(map);
+    })
+    .catch(error => {
+        console.error('Error loading country data:', error);
+        alert('Failed to load country data.');
     });
-    
-function showCountryDetails() {
-
-    if (selectedCountry) {
-        selectedCountry.closePopup();
-    }
-    
-
-    const detailsSection = document.getElementById('country-details');
-    detailsSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-    });
-}

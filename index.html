@@ -6,17 +6,66 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""/>
     <link rel="stylesheet" href="styles.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="header">
+        <a href="http://127.0.0.1:5500/quiz.html">
+            <button class="btn" id="quiz-btn" data-action="quiz" onclick="showQuizView()">Quiz View</button>
+        </a>
+        <button class="btn" id="playlist-btn" data-action="playlist" onclick="showPlaylistView()">Playlist View</button>
+    </div>
+    <section id="main">
+        <h1 class="main-heading">Educational Interactive Map</h1>
+        <button class="btn" id="map-scroll-btn" data-action="map-scroll" onclick="mapScroll()">Direct to Map</button>
+        <img src="" alt="EARTH IMG" class="earth-image" id="earth-image-main">
+    </section>
+    <section id="how-to-use">
+        <h1 class="main-heading">How to Use</h1>
+    </section>
     <div id="map"></div>
     <section id="country-details" class="country-details-section">
-        <div class="container">
-            <h2>Country Details</h2>
-            <div id="country-info-content">
+    <h2>Country Details</h2>
+    <div id="details-container">
+        <p class="no-selection">Select a country on the map to see details here</p>
+        
+        <div class="container" id="details-template" style="display: none;">
+            <div class="details-content">
+                <div class="detail-item">
+                    <h3>Capital</h3>
+                    <p id="detail-capital"></p>
+                </div>
+                <div class="detail-item">
+                    <h3>National Animal</h3>
+                    <p id="detail-animal"></p>
+                </div>
+                <div class="detail-item">
+                    <h3>National Dish</h3>
+                    <p id="detail-dish"></p>
+                </div>
+                <div class="detail-item">
+                    <h3>National Tree</h3>
+                    <p id="detail-tree"></p>
+                </div>
+                <div class="detail-item">
+                    <h3>Official Language</h3>
+                    <p id="detail-language"></p>
+                </div>
+                <div class="detail-item">
+                    <h3>National Day</h3>
+                    <p id="detail-day"></p>
+                    <p id="detail-day-info" style="font-size: 0.9em; color: #666; margin-top: 0.5rem;"></p>
+                </div>
+                <div class="detail-item">
+                    <h3>National Anthem</h3>
+                    <p id="detail-anthem"></p>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
     <template id="popup-template" class="popup-template">
         <div class="country-popup">
             <h3 data-field="name">Country Name</h3>
