@@ -32,9 +32,10 @@ html {
     background: #0056b3;
 }
 
-#header { height: 87px;
+#header { 
+    height: 5em;
     background-color: #A0F1BD;
-    margin: 0px;
+    margin: -10px;
 }
 .btn {
     background: #2E4F21;
@@ -44,7 +45,6 @@ html {
     border-radius: 51.57px;
     cursor: pointer;
     position: relative;
-
 }
 .btn:hover {
     background: #1b2d12;
@@ -52,6 +52,7 @@ html {
 #quiz-btn {
     left: 1350px;
     top: 15px;
+    margin: -10px;
 }
 #playlist-btn {
     left: 1170px;
@@ -61,7 +62,7 @@ html {
     text-align: left;
     height: 600px;
     background-color: #A0F1BD;
-    margin-top: -67px;
+    margin: -67px -10px;
 }
 .earth-image {
     width: 429px;
@@ -92,3 +93,17 @@ html {
     text-align: left;
     height: 600px;
 }
+
+/* #quiz-main-heading{
+    background-color: #A0F1BD;
+    margin: -60px -20px;
+    height: 45em;
+}
+
+#quiz-main-heading h1 {
+    font-size: 80px;
+    font-family: 'Work Sans', sans-serif;
+    text-align: center;
+    color: #333;
+    width: 100%;
+} */
