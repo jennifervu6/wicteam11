@@ -3,6 +3,7 @@ const theQuestion = document.getElementById("question");
 const choices = document.getElementById("answer-options");
 const nextButton = document.getElementById("nextQuestion");
 const box = document.getElementById("quiz-content");
+const restartButton = document.getElementById("restart-quiz");
 
 //10 Questions put into the questions object
 const questions = {
@@ -89,6 +90,7 @@ var allChoices = choices.querySelectorAll(".buttons");
 console.log(allChoices);
 //to hide the next button until they choose an answer
 nextButton.classList.add("hide");
+restartButton.classList.add("hide");
 
 //function for checking if the answer chosen is correct
 function checkAnswer(event){
@@ -133,6 +135,7 @@ function nextQuestion(){
         theQuestion.style.display = "none";
         choices.style.display = "none";
         nextButton.classList.add("hide");
+        restartButton.classList.remove("hide");
 
         var scoreTitle = document.createElement("h1");
         scoreTitle.innerText = "Your Score:";
@@ -179,3 +182,31 @@ nextButton.addEventListener("click", nextQuestion);
 for(let i = 0; i < allChoices.length; i++){
     allChoices[i].addEventListener("click", checkAnswer);
 }
+
+//event listener for restarting the quiz
+restartButton.addEventListener("click", function(){
+    //this is where i should probably create an array and continue adding the scores
+
+    //resetting variables and UI elements
+    questionNum = 0;
+    score = 0;
+    nextButton.classList.add("hide");
+    restartButton.classList.add("hide");
+    theQuestion.style.display = "block";
+    choices.style.display = "flex";
+    theQuestion.innerText = questions[questionNum].q;
+    allChoices[0].innerText = questions[questionNum].correct;
+    allChoices[1].innerText = questions[questionNum].other1;
+    allChoices[2].innerText = questions[questionNum].other2;
+    allChoices[3].innerText = questions[questionNum].other3;
+
+    //removing score elements
+    var scoreTitle = box.querySelector(".title");
+    var percentage = box.querySelector(".result");
+    var result = box.querySelectorAll(".result")[1];
+    box.removeChild(scoreTitle);
+    box.removeChild(percentage);
+    box.removeChild(result);
+    box.removeChild(restartButton);
+
+});
