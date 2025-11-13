@@ -13,5 +13,42 @@
         <button class="btn" id="playlist-btn" data-action="playlist" onclick="showPlaylistView()">Playlist View</button>
       </div>
     <h1>Quiz</h1>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+    <script src="quizScript.js" defer></script>
+  </head>
+    <body>
+      <!-- change once alisa pushes her changes -->
+      <div id="header">
+        <a href="http://127.0.0.1:5500/quiz.html">
+            <button class="btn" id="quiz-btn" data-action="quiz" onclick="showQuizView()">Quiz View</button>
+        </a>
+        <button class="btn" id="playlist-btn" data-action="playlist" onclick="showPlaylistView()">Playlist View</button>
+      </div>
+
+      <div id = "quiz-main-heading">
+        <h1>Take The Quiz</h1>
+        <h3>Test your global knowledge</h3>
+        <div>
+          <button>Take Quiz</button>
+          <button>Attempt History</button>
+        </div>
+      </div>
+
+      <div id = "quiz-section">
+        <div id = "quiz-content">
+          <h2 id = "question">What is the capital of the Canada?</h2>
+
+          <div id = "answer-options">
+            <button id = "choice1" class = "buttons">Ottawa</button>
+            <button id = "choice2" class = "buttons">Washington D.C.</button>
+            <button id = "choice3" class = "buttons">Brasilia</button>
+            <button id = "choice4" class = "buttons">Bogota</button>
+          </div>
+          
+          <button id = "nextQuestion">Next Question</button>
+          <button id = "restart-quiz">Restart Quiz</button>
+        </div>
+      </div>
     </body>
 </html> 
