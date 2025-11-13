@@ -32,37 +32,45 @@ html {
     background: #0056b3;
 }
 
-#header { 
-    height: 5em;
+
+#header {
+    height: 50px;
     background-color: #A0F1BD;
-    margin: -10px;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px; 
+    padding-right: 20px;
+    position: relative;
 }
+
 .btn {
     background: #2E4F21;
     color: white;
     border: none;
-    padding: 12px 12px;
-    border-radius: 51.57px;
+    padding: 15px 18px;
+    border-radius: 24px;
     cursor: pointer;
-    position: relative;
+    position: static;
+    font-size: 0.7em;
 }
 .btn:hover {
     background: #1b2d12;
 }
-#quiz-btn {
-    left: 1350px;
-    top: 15px;
-    margin: -10px;
-}
-#playlist-btn {
-    left: 1170px;
-    top: 15px;
+#quiz-btn, #playlist-btn, #map-btn {
+    left: unset;
+    top: unset;
+    border: none;
 }
 #main {
     text-align: left;
     height: 600px;
     background-color: #A0F1BD;
-    margin: -67px -10px;
+    margin-top: -67px;
+    width: 100vw;
+    margin-left: 0;
+    margin-right: 0;
 }
 .earth-image {
     width: 429px;
@@ -70,28 +78,64 @@ html {
     position: relative;
 }
 #earth-image-main {
-    left: 900px;
-    top: -50px;
+    left: 800px;
+    top: -90px;
 }
 .main-heading {
-    font-size: 80px;
+    font-size: 58px;
     font-weight: 400;
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Roboto", sans-serif;
     text-align: left;
-    color: #333;
-    width: 700px;
+    color: #2E4F21;
+    width: 500px;
     height: 120px;
     position: relative;
-    top: 150px;
+    top: 190px;
     left: 40px;
 }
 #map-scroll-btn {
+    position: absolute;
     left: 40px;
-    top: -200px;
+    top: -150px;
+}
+#map-scroll-btn {
+     position: relative;
+     left: 40px;
+     top: -200px;
 }
 #how-to-use {
     text-align: left;
     height: 600px;
+    color: #2E4F21;
+    position: relative;
+    top: -170px;
+
+    
+}
+.container {
+    display: flex;
+    max-width: 1500px;
+    min-height: 400px; 
+    margin: 160px auto 0; 
+    background: white;
+    border-radius: 2px;
+    overflow: hidden;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.column {
+    flex: 1;
+    padding: 40px 30px;
+    text-align: left;
+    border-right: 1px solid #2E4F21;
+}
+
+.column:last-child {
+    border-right: none;
+}
+
 }
 
 /* quiz view styling */
