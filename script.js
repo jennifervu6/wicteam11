@@ -23,6 +23,7 @@ function updateCountryDetails(properties, countryInfo) {
     const detailsContainer = document.getElementById('details-container');
     const detailsTemplate = document.getElementById('details-template');
     const noSelection = detailsContainer.querySelector('.no-selection');
+    const detailsHeader = document.querySelector('#country-details h2');
     
     if (!detailsContainer || !detailsTemplate) {
         console.error('Details container or template not found');
@@ -35,6 +36,9 @@ function updateCountryDetails(properties, countryInfo) {
     }
     detailsTemplate.style.display = 'block';
     
+    if (detailsHeader) {
+        detailsHeader.textContent = properties.name; // Change header to country name
+    }
  
     const animalDisplay = Array.isArray(countryInfo.animal) 
         ? countryInfo.animal.join(', ') 
@@ -89,6 +93,13 @@ function showPlaylistView() {
     alert('Playlist feature coming soon!');
 }
 
+function showMapView() {
+    window.location.href = "index.html";
+}
+
+function showQuizView() {
+    window.location.href = "quiz.html";
+}
 
 fetch('data/countries_info.json')
     .then(response => {
