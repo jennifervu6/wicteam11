@@ -1,2 +1,2 @@
 # wicteam11
-wic team 11 project
+Wic Team 11 Project: Interactive Educational Map of the Americas
