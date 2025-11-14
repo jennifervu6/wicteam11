@@ -33,6 +33,18 @@ html {
 }
 
 
+#header { 
+    display: flex;
+    align-items: flex-start; /* align items at top */
+    justify-content: flex-end; /* align items to right */
+    gap: 12px; /* spacing between buttons */
+    padding: 16px;
+    background-color: #A0F1BD;
+    position: sticky; /* stick to top when scrolling */
+    margin: -10px;
+    z-index: 50;
+}
+/*Old style
 #header {
     height: 50px;
     background-color: #A0F1BD;
@@ -43,7 +55,7 @@ html {
     gap: 10px; 
     padding-right: 20px;
     position: relative;
-}
+} */
 
 .btn {
     background: #2E4F21;
@@ -68,9 +80,9 @@ html {
     height: 600px;
     background-color: #A0F1BD;
     margin-top: -67px;
+    margin-left: -10px;
     width: 100vw;
-    margin-left: 0;
-    margin-right: 0;
+    padding: 10px;
 }
 .earth-image {
     width: 429px;
@@ -136,8 +148,6 @@ html {
     border-right: none;
 }
 
-}
-
 /* quiz view styling */
 #quiz-main-heading{
     background-color: #A0F1BD;
@@ -168,19 +178,22 @@ html {
     margin: auto;
 }
 #answer-options{
-    width: 100%;
-    margin: auto;
     display: flex;
-    justify-content: space-around;
-    padding: 50px;
+    flex-direction: column; /* stack buttons vertically */
+    align-items: center;    /* center buttons horizontally */
+    gap: 16px;              /* spacing between buttons */
+    margin: auto;
+    padding: 30px 20px;
 }
 .buttons{
-    width: 20rem;
-    height: 4rem;
+    width: 90%;            /* almost full width inside the answer container */
+    max-width: 600px;      /* cap width for large screens */
+    height: 3.75rem;
     background-color: transparent;
     border-radius: 10px;
     font-family: 'Josefin Sans', sans-serif;
     font-size: 90%;
+    margin: 10px;
 }
 .correctAnswer{
     background-color: rgb(21, 135, 21);
@@ -205,4 +218,10 @@ html {
     text-align: center;
     padding: 0px 0px 50px;
     font-size: 150%;
+}
+#quiz-main-heading{
+    text-align: center;
+}
+#quiz-section{
+    text-align: center;
 }
