@@ -33,30 +33,47 @@ html {
 }
 
 #header { 
-    height: 5em;
+    display: flex;
+    align-items: flex-start; /* align items at top */
+    justify-content: flex-end; /* align items to right */
+    gap: 12px; /* spacing between buttons */
+    padding: 16px;
     background-color: #A0F1BD;
+    position: sticky; /* stick to top when scrolling */
     margin: -10px;
+    z-index: 50;
 }
 .btn {
     background: #2E4F21;
     color: white;
     border: none;
-    padding: 12px 12px;
-    border-radius: 51.57px;
+    padding: 10px 14px;
+    border-radius: 24px;
     cursor: pointer;
-    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 .btn:hover {
     background: #1b2d12;
 }
-#quiz-btn {
-    left: 1350px;
-    top: 15px;
-    margin: -10px;
+/* remove absolute positioning and ensure responsive spacing */
+#quiz-btn, #playlist-btn {
+    margin: 0;
 }
-#playlist-btn {
-    left: 1170px;
-    top: 15px;
+
+/* small screens: reduce padding and stack header items vertically if needed */
+@media (max-width: 480px) {
+    #header {
+        flex-direction: column;
+        align-items: flex-end; /* keep items right-aligned when stacked */
+        gap: 8px;
+        padding: 8px 10px;
+    }
+    .btn {
+        padding: 8px 12px;
+        border-radius: 20px;
+    }
 }
 #main {
     text-align: left;
@@ -124,19 +141,22 @@ html {
     margin: auto;
 }
 #answer-options{
-    width: 100%;
-    margin: auto;
     display: flex;
-    justify-content: space-around;
-    padding: 50px;
+    flex-direction: column; /* stack buttons vertically */
+    align-items: center;    /* center buttons horizontally */
+    gap: 16px;              /* spacing between buttons */
+    margin: auto;
+    padding: 30px 20px;
 }
 .buttons{
-    width: 20rem;
-    height: 4rem;
+    width: 90%;            /* almost full width inside the answer container */
+    max-width: 600px;      /* cap width for large screens */
+    height: 3.75rem;
     background-color: transparent;
     border-radius: 10px;
     font-family: 'Josefin Sans', sans-serif;
     font-size: 90%;
+    margin: 10px;
 }
 .correctAnswer{
     background-color: rgb(21, 135, 21);
@@ -161,4 +181,10 @@ html {
     text-align: center;
     padding: 0px 0px 50px;
     font-size: 150%;
+}
+#quiz-main-heading{
+    text-align: center;
+}
+#quiz-section{
+    text-align: center;
 }
