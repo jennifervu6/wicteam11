@@ -1,0 +1,12 @@
+const express = require("express");
+const path = require("path");
+
+const app = express();
+const PORT = 3000;
+
+// Allow access to ALL files in this folder
+app.use(express.static(path.join(__dirname)));
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

@@ -61,7 +61,7 @@ function findCountryInfo(countryName) {
     if (!countriesInfoData) return null;
     
     return countriesInfoData.find(country => 
-        country['Unnamed: 0'] === countryName
+        country['country'] === countryName
     );
 }
 
@@ -120,7 +120,7 @@ fetch('data/countries_info.json')
             features: countriesArray.map(country => ({
                 type: "Feature",
                 properties: {
-                    name: country['Unnamed: 0'],
+                    name: country['country'],
                     ...country
                 },
                 geometry: country.geometry
