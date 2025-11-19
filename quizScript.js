@@ -15,7 +15,7 @@ const questions = {
         other3: "Bogota"
     },
     2: {
-        q: "What Argentina's national animal?",
+        q: "What is Argentina's national animal?",
         correct: "Furnarius rufus",
         other1: "Jaguar",
         other2: "Puma",
