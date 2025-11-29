@@ -17,7 +17,17 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let selectedCountry = null;
 let currentCountryData = null;
 let countriesInfoData = null;
-
+const countryCodes = { "Canada": "CA", "United States": "US", 
+    "Mexico": "MX", "Belize": "BZ", "Guatemala": "GT", "El Salvador": "SV", 
+    "Honduras": "HN", "Nicaragua": "NI", "Costa Rica": "CR", "Panama": "PA", 
+    "Bahamas": "BS", "Cuba": "CU", "Jamaica": "JM", "Haiti": "HT", 
+    "Dominican Republic": "DO", "Antigua and Barbuda": "AG", "Dominica": "DM", 
+    "Saint Lucia": "LC", "Saint Vincent and the Grenadines": "VC", 
+    "Barbados": "BB", "Grenada": "GD", "Trinidad and Tobago": "TT", 
+    "Colombia": "CO", "Venezuela": "VE", "Guyana": "GY", "Suriname": "SR", 
+    "Brazil": "BR", "Ecuador": "EC",  "Peru": "PE", "Bolivia": "BO", 
+     "Paraguay": "PY", "Chile": "CL", "Argentina": "AR", "Uruguay": "UY"
+};
 
 function updateCountryDetails(properties, countryInfo) {
     const detailsContainer = document.getElementById('details-container');
@@ -47,13 +57,16 @@ function updateCountryDetails(properties, countryInfo) {
     const languageDisplay = countryInfo['official language'] || 'Unknown';
     
     document.getElementById('detail-capital').textContent = countryInfo.capital || 'Unknown';
-    document.getElementById('detail-animal').textContent = animalDisplay;
-    document.getElementById('detail-dish').textContent = countryInfo.dish || 'Unknown';
-    document.getElementById('detail-tree').textContent = countryInfo.tree || 'Unknown';
     document.getElementById('detail-language').textContent = languageDisplay;
     document.getElementById('detail-day').textContent = countryInfo['national day'] || 'Unknown';
     document.getElementById('detail-day-info').textContent = countryInfo['national day info'] || '';
     document.getElementById('detail-anthem').textContent = countryInfo.anthem || 'Unknown';
+    document.getElementById('detail-animal').textContent = animalDisplay;
+    document.getElementById('detail-dish').textContent = countryInfo.dish || 'Unknown';
+    document.getElementById('detail-tree').textContent = countryInfo.tree || 'Unknown';
+    document.getElementById('detail-species').textContent = countryInfo['endangered species']|| 'Unknown';
+    
+
 }
 
 
@@ -186,17 +199,31 @@ fetch('data/countries_info.json')
 
                    
                     const countryInfo = findCountryInfo(feature.properties.name);
-
+                    const countryName1 = feature.properties.name;
+                    const code = countryCodes[countryName1];
                     
+                    // // old popoup 
+                    // const popupContent = `
+                    //     <div class="country-popup">
+                    //         <h3>${feature.properties.name}</h3>
+                    //         <div class="popup-content">
+                    //             <p><strong>Capital:</strong> ${countryInfo?.capital || 'Unknown'}</p>
+                    //             <button class="info-btn" onclick="showCountryDetails()">More Information</button>
+                    //         </div>
+                    //     </div>
+                    // `;  
+                    
+                    //new popup with flag
                     const popupContent = `
                         <div class="country-popup">
-                            <h3>${feature.properties.name}</h3>
+                            ${code ? `<img class="flag" src="https://flagcdn.com/${code.toLowerCase()}.svg" alt="${countryName1} flag">` : ""}
+                            <h3>${countryName1}</h3>
                             <div class="popup-content">
                                 <p><strong>Capital:</strong> ${countryInfo?.capital || 'Unknown'}</p>
                                 <button class="info-btn" onclick="showCountryDetails()">More Information</button>
                             </div>
                         </div>
-                    `;
+                    `;   
 
                     
                     layer.bindPopup(popupContent, {

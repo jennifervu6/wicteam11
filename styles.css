@@ -148,6 +148,19 @@ html {
     border-right: none;
 }
 
+.country-popup {
+    text-align: center;
+}
+
+.flag {
+    width: 70px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
 /* quiz view styling */
 #quiz-main-heading{
     background-color: #A0F1BD;
