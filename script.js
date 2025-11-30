@@ -4,7 +4,8 @@ var map = L.map('map', {
     zoom: 2.5,
     maxZoom: 4,
     minZoom: 2.5,
-    zoomSnap: 0.4 
+    zoomSnap: 0.4,
+    scrollWheelZoom: false // disable zooming via mouse wheel/trackpad scroll
 });
 
 var bounds = map.getBounds();
@@ -13,6 +14,9 @@ map.setMaxBounds(bounds);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
+// Ensure wheel zoom is disabled (defensive, in case of re-init elsewhere)
+map.scrollWheelZoom.disable();
 
 let selectedCountry = null;
 let currentCountryData = null;
@@ -33,7 +37,8 @@ function updateCountryDetails(properties, countryInfo) {
     const detailsContainer = document.getElementById('details-container');
     const detailsTemplate = document.getElementById('details-template');
     const noSelection = detailsContainer.querySelector('.no-selection');
-    const detailsHeader = document.querySelector('#country-details h2');
+    const detailsHeader = document.querySelector('#country-header h2');
+    const headerContainer = document.querySelector('#country-header');
     
     if (!detailsContainer || !detailsTemplate) {
         console.error('Details container or template not found');
@@ -45,9 +50,29 @@ function updateCountryDetails(properties, countryInfo) {
         noSelection.style.display = 'none';
     }
     detailsTemplate.style.display = 'block';
-    
     if (detailsHeader) {
-        detailsHeader.textContent = properties.name; // Change header to country name
+        const countryName = properties.name;
+        const code = countryCodes[countryName];
+
+        detailsHeader.textContent = countryName;
+        if (code) {
+            headerContainer.style.backgroundImage = `url("https://flagcdn.com/${code.toLowerCase()}.svg")`;
+            headerContainer.style.backgroundSize = 'cover';         
+            headerContainer.style.backgroundPosition = 'center'; // baseline for subtle parallax
+            headerContainer.style.backgroundRepeat = 'no-repeat';
+            // Use CSS class to control header text color on selection
+            headerContainer.classList.add('selected');
+            headerContainer.style.color = '';                 
+            headerContainer.style.padding = '40px 16px';            
+            headerContainer.style.backgroundBlendMode = 'overlay';
+            headerContainer.style.boxShadow = 'inset 0 0 0 1000px rgba(0,0,0,0.25)';
+        } else {
+            headerContainer.style.backgroundImage = '';
+            headerContainer.style.boxShadow = '';
+            headerContainer.classList.remove('selected');
+            headerContainer.style.color = '';
+            headerContainer.style.padding = '';
+        }
     }
  
     const animalDisplay = Array.isArray(countryInfo.animal) 
@@ -91,14 +116,6 @@ function showCountryDetails() {
     });
 }
 
-
-function mapScroll() {
-    const mapSection = document.getElementById('map');
-    mapSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-    });
-}
 
 
 
@@ -202,18 +219,6 @@ fetch('data/countries_info.json')
                     const countryName1 = feature.properties.name;
                     const code = countryCodes[countryName1];
                     
-                    // // old popoup 
-                    // const popupContent = `
-                    //     <div class="country-popup">
-                    //         <h3>${feature.properties.name}</h3>
-                    //         <div class="popup-content">
-                    //             <p><strong>Capital:</strong> ${countryInfo?.capital || 'Unknown'}</p>
-                    //             <button class="info-btn" onclick="showCountryDetails()">More Information</button>
-                    //         </div>
-                    //     </div>
-                    // `;  
-                    
-                    //new popup with flag
                     const popupContent = `
                         <div class="country-popup">
                             ${code ? `<img class="flag" src="https://flagcdn.com/${code.toLowerCase()}.svg" alt="${countryName1} flag">` : ""}
@@ -227,9 +232,11 @@ fetch('data/countries_info.json')
 
                     
                     layer.bindPopup(popupContent, {
-                        maxWidth: 300,
+                        maxWidth: 320,
                         className: 'custom-popup',
-                        closeOnClick: false
+                        closeOnClick: false,
+                        autoPan: true,
+                        offset: L.point(0, -6)
                     }).openPopup();
                     
                     

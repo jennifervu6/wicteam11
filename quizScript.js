@@ -210,3 +210,15 @@ restartButton.addEventListener("click", function(){
     box.removeChild(restartButton);
 
 });
+
+function showPlaylistView() {
+    alert('Playlist feature coming soon!');
+}
+
+function showMapView() {
+    window.location.href = "index.html";
+}
+
+function showQuizView() {
+    window.location.href = "quiz.html";
+}

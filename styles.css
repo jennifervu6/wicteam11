@@ -1,8 +1,30 @@
-#map { height: 850px; }
+#map { 
+    height: 850px;
+    border-radius: 12px;
+    margin: 40px 20px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 8px 24px rgba(46, 79, 33, 0.15);
+    overflow: hidden;
+    
+}
+/* Center the Leaflet zoom controls vertically on the left side */
+#map .leaflet-left {
+    top: 50% !important;
+    transform: translateY(-50%);
+}
+
 .country-details-section {
-    padding: 40px 0;
-    background: #f8f9fa;
+    padding: 0;
+    background: #ffffff;
     min-height: 850px;
+}
+
+#map-section {
+    background: #ffffff;
+    padding: 20px;
+    margin: 40px 0;
 }
 
 .container {
@@ -11,12 +33,12 @@
     padding: 0 20px;
 }
 
-html {
-    scroll-behavior: smooth;
+html{
+    scroll-behavior: smooth; /* keep smooth scrolling */
     margin: 0;
     padding: 0;
+    overflow-x: hidden; /* prevent horizontal (right) scroll */
 }
-
 
 .info-btn {
     background: #007bff;
@@ -33,6 +55,16 @@ html {
 }
 
 
+
+/* Emoji icons for how-to-use */
+.how-emoji {
+    font-size: 48px; /* emoji size */
+    line-height: 1;
+    display: inline-block;
+    margin: 0 0 12px 0;
+}
+
+
 #header { 
     display: flex;
     align-items: flex-start; /* align items at top */
@@ -44,18 +76,7 @@ html {
     margin: -10px;
     z-index: 50;
 }
-/*Old style
-#header {
-    height: 50px;
-    background-color: #A0F1BD;
-    margin: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 10px; 
-    padding-right: 20px;
-    position: relative;
-} */
+
 
 .btn {
     background: #2E4F21;
@@ -68,7 +89,8 @@ html {
     font-size: 0.7em;
 }
 .btn:hover {
-    background: #1b2d12;
+    background: #ffffff;
+    color: #2E4F21;
 }
 #quiz-btn, #playlist-btn, #map-btn {
     left: unset;
@@ -96,7 +118,7 @@ html {
 .main-heading {
     font-size: 58px;
     font-weight: 400;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-align: left;
     color: #2E4F21;
     width: 500px;
@@ -104,11 +126,6 @@ html {
     position: relative;
     top: 190px;
     left: 40px;
-}
-#map-scroll-btn {
-    position: absolute;
-    left: 40px;
-    top: -150px;
 }
 #map-scroll-btn {
      position: relative;
@@ -134,7 +151,7 @@ html {
     overflow: hidden;
     font-size: 20px;
     font-weight: 400;
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .column {
@@ -148,8 +165,150 @@ html {
     border-right: none;
 }
 
+#country-header {
+    position: relative;
+    left: 50%;
+    margin-left: -50vw; /* full-bleed to left */
+    width: 100vw; /* span full viewport width */
+    padding: 40px 40px; /* inner horizontal padding */
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 40px;
+    
+}
+
+#country-header h2 {
+    margin: 0;
+    font-size: 58px;
+    font-weight: 400;
+    color: #2E4F21; /* default dark green before selection */
+    font-family: 'Roboto', sans-serif;
+    padding-left: 20px;
+}
+
+#country-header.selected h2 {
+    color: #ffffff;
+    padding-left: 40px;
+}
+
+#details-template {
+    margin: 0 auto;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+    max-width: 1400px;
+    background: transparent !important;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.details-content {
+    display: contents;
+}
+
+.detail-item {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(46, 79, 33, 0.1);
+    transition: all 0.3s ease;
+    
+}
+
+.detail-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(46, 79, 33, 0.2);
+}
+
+.detail-item h3 {
+    color: #2E4F21;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.detail-item p {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+#detail-day-info {
+    color: #555 !important;
+    font-size: 16px !important;
+    margin-top: 8px !important;
+}
+
+#details-container {
+    padding: 20px;
+    background: transparent;
+    border: none;
+}
+
+/* Message shown when no country is selected */
+.no-selection {
+    font-size: 20px;
+    color: #2E4F21; /* match header/brand color */
+    text-align: center;
+    margin: 32px auto;
+    padding: 18px 22px;
+    max-width: 900px;
+    border-radius: 12px;
+    font-family: 'Roboto', sans-serif;
+}
+
 .country-popup {
     text-align: center;
+}
+
+.custom-popup {
+    font-family: 'Roboto', sans-serif;
+}
+
+.custom-popup .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(46,79,33,0.18);
+}
+
+.custom-popup .leaflet-popup-tip {
+    background: #ffffff;
+}
+
+.custom-popup .leaflet-popup-content {
+    margin: 0;
+    padding: 14px 16px;
+}
+
+.custom-popup .country-popup h3 {
+    margin: 8px 0 6px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2E4F21;
+}
+
+.custom-popup .popup-content p {
+    margin: 6px 0 10px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.custom-popup .flag {
+    width: 72px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.custom-popup .info-btn {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
 }
 
 .flag {
@@ -177,13 +336,13 @@ html {
     padding: 100px 0px
 }
 
-/* #quiz-content{
+#quiz-content{
     background: rgb(231, 231, 231);
     width: 50%;
     margin: 4rem auto;
     text-align: center;
     font-family: 'Josefin Sans', sans-serif;
-} */
+} 
 #question{
     padding: 40px;
     font-size: 120%;
