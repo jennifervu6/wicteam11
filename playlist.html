@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- axios allows to load data properly --> <!-- ADDED 17 NOV BY AANYA-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header">
+        <button class="btn" id="map_btn" data-action="map_btn" onclick="showMapView()">Map View</button>
+        <button class="btn" id="quiz-btn" data-action="quiz" onclick="showQuizView()">Quiz View</button>
+        <button class="btn" id="playlist-btn" data-action="playlist" onclick="showPlaylistView()">Playlist View</button>
+    </div>
+    
+    <div id="playlist-container">
+        <h1>My Playlist</h1>
+        <div id="playlist-content">
+            <div class="empty-playlist">
+                <p>Your playlist is empty!</p>
+                <p>Go to the map and like some songs to build your playlist.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src = "playlistScript.js"></script>
+</body>
+</html>

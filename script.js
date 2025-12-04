@@ -91,6 +91,55 @@ function updateCountryDetails(properties, countryInfo) {
     document.getElementById('detail-tree').textContent = countryInfo.tree || 'Unknown';
     document.getElementById('detail-species').textContent = countryInfo['endangered species']|| 'Unknown';
     
+    // Update Spotify embed if song URL exists
+    if (countryInfo.song) {
+        const spotifyEmbed = document.getElementById('spotify-embed');
+        if (spotifyEmbed) {
+            // Convert track URL to embed URL
+            // Example: https://open.spotify.com/track/53iuhJlwXhSER5J2IYYv1W?si=...
+            // becomes: https://open.spotify.com/embed/track/53iuhJlwXhSER5J2IYYv1W?utm_source=generator
+            const trackMatch = countryInfo.song.match(/\/track\/([a-zA-Z0-9]+)/);
+            if (trackMatch) {
+                const trackId = trackMatch[1];
+                spotifyEmbed.src = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator`;
+            }
+        }
+        
+        // Show and setup like button
+        const likeContainer = document.getElementById('song-like-container');
+        const likeBtn = document.getElementById('like-song-btn');
+        if (likeContainer && likeBtn) {
+            likeContainer.style.display = 'block';
+            
+            // Check if song is already liked
+            const likedSongs = getLikedSongs();
+            const isLiked = likedSongs.some(song => song.country === properties.name);
+            
+            if (isLiked) {
+                likeBtn.classList.add('liked');
+                likeBtn.innerHTML = '<span class="heart">♥</span> Remove from Playlist';
+            } else {
+                likeBtn.classList.remove('liked');
+                likeBtn.innerHTML = '<span class="heart">♡</span> Add to Playlist';
+            }
+            
+            // Remove old event listener by cloning
+            const newLikeBtn = likeBtn.cloneNode(true);
+            likeBtn.parentNode.replaceChild(newLikeBtn, likeBtn);
+            
+            // Add new event listener
+            newLikeBtn.addEventListener('click', function() {
+                toggleLikeSong(properties.name, countryInfo.song);
+            });
+        }
+    } else {
+        // Hide like button if no song
+        const likeContainer = document.getElementById('song-like-container');
+        if (likeContainer) {
+            likeContainer.style.display = 'none';
+        }
+    }
+    
 
 }
 
@@ -119,8 +168,17 @@ function showCountryDetails() {
 
 
 
+
+    function mapScroll() {
+        const mapSection = document.getElementById('map');
+        if (!mapSection) return;
+        mapSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
 function showPlaylistView() {
-    alert('Playlist feature coming soon!');
+    window.location.href = "playlist.html";
 }
 
 function showMapView() {
@@ -129,6 +187,49 @@ function showMapView() {
 
 function showQuizView() {
     window.location.href = "quiz.html";
+}
+
+// Liked songs management functions
+function getLikedSongs() {
+    const stored = localStorage.getItem('likedSongs');
+    return stored ? JSON.parse(stored) : [];
+}
+
+function saveLikedSongs(songs) {
+    localStorage.setItem('likedSongs', JSON.stringify(songs));
+}
+
+function toggleLikeSong(countryName, songUrl) {
+    const likedSongs = getLikedSongs();
+    const existingIndex = likedSongs.findIndex(song => song.country === countryName);
+    
+    if (existingIndex >= 0) {
+        // Remove from liked songs
+        likedSongs.splice(existingIndex, 1);
+        alert(`Removed ${countryName}'s song from playlist!`);
+    } else {
+        // Add to liked songs
+        likedSongs.push({
+            country: countryName,
+            songUrl: songUrl
+        });
+        alert(`Added ${countryName}'s song to playlist!`);
+    }
+    
+    saveLikedSongs(likedSongs);
+    
+    // Update button state
+    const likeBtn = document.getElementById('like-song-btn');
+    if (likeBtn) {
+        const isLiked = existingIndex < 0;
+        if (isLiked) {
+            likeBtn.classList.add('liked');
+            likeBtn.innerHTML = '<span class="heart">♥</span> Remove from Playlist';
+        } else {
+            likeBtn.classList.remove('liked');
+            likeBtn.innerHTML = '<span class="heart">♡</span> Add to Playlist';
+        }
+    }
 }
 
 fetch('data/countries_info.json')

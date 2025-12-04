@@ -212,7 +212,7 @@ restartButton.addEventListener("click", function(){
 });
 
 function showPlaylistView() {
-    alert('Playlist feature coming soon!');
+    window.location.href = "playlist.html";
 }
 
 function showMapView() {
