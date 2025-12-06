@@ -185,30 +185,52 @@ for(let i = 0; i < allChoices.length; i++){
 
 //event listener for restarting the quiz
 restartButton.addEventListener("click", function(){
-    //this is where i should probably create an array and continue adding the scores
-
     //resetting variables and UI elements
-    questionNum = 0;
+    questionNum = 1;
     score = 0;
     nextButton.classList.add("hide");
     restartButton.classList.add("hide");
     theQuestion.style.display = "block";
     choices.style.display = "flex";
-    theQuestion.innerText = questions[questionNum].q;
-    allChoices[0].innerText = questions[questionNum].correct;
-    allChoices[1].innerText = questions[questionNum].other1;
-    allChoices[2].innerText = questions[questionNum].other2;
-    allChoices[3].innerText = questions[questionNum].other3;
-
+    
     //removing score elements
     var scoreTitle = box.querySelector(".title");
     var percentage = box.querySelector(".result");
-    var result = box.querySelectorAll(".result")[1];
-    box.removeChild(scoreTitle);
-    box.removeChild(percentage);
-    box.removeChild(result);
-    box.removeChild(restartButton);
+    var results = box.querySelectorAll(".result");
+    
+    if (scoreTitle) box.removeChild(scoreTitle);
+    if (percentage) box.removeChild(percentage);
+    if (results.length > 0) {
+        for (let i = results.length - 1; i >= 0; i--) {
+            box.removeChild(results[i]);
+        }
+    }
+    
+    //clear answer classes from previous quiz
+    for(let i = 0; i < allChoices.length; i++){
+        allChoices[i].classList.remove("correctAnswer");
+        allChoices[i].classList.remove("wrongAnswer");
+    }
+    
+    //display first question with randomized answers
+    theQuestion.innerText = questions[questionNum].q;
+    
+    //for assigning a random position for the correct answer
+    var answerOptions = "0123";
+    var randomNum = Math.floor(Math.random() * 4);
+    allChoices[randomNum].innerText = questions[questionNum].correct;
 
+    //going through the answerOptions string to remove the index of where the correct value is
+    for(var i = 0; i < answerOptions.length; i++){
+        if (parseInt(answerOptions[i]) === randomNum){
+            answerOptions = answerOptions.replace(answerOptions[i], "");
+        }
+    }
+
+    //assigning the other answer choices to the other buttons
+    allChoices[parseInt(answerOptions.charAt(0))].innerText = questions[questionNum].other1;
+    allChoices[parseInt(answerOptions.charAt(1))].innerText = questions[questionNum].other2;
+    allChoices[parseInt(answerOptions.charAt(2))].innerText = questions[questionNum].other3;
 });
 
 function showPlaylistView() {
